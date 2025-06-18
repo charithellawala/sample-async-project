@@ -16,6 +16,7 @@ class ChargingServiceImpl(
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
+
     fun processChargingRequest(request: ChargingRequestDTO): ApiResponse {
 
         logger.info("Processing charging request for station ${request.stationId}")
@@ -30,7 +31,7 @@ class ChargingServiceImpl(
             chargingRequestProducer.sendChargingRequest(chargingRequest)
             return ApiResponse(
                 status = "accepted",
-                message = "Request is being processed asynchronously..!!"
+                message = "Request is being processed. The result will send to callback Url"
             )
 
         } catch (e: Exception) {
@@ -39,6 +40,7 @@ class ChargingServiceImpl(
         }
 
     }
+
 
 
 }

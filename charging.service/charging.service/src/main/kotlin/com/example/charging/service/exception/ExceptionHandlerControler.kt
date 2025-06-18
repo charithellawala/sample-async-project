@@ -23,21 +23,4 @@ class ExceptionHandlerControler {
             ApiResponse("error", ex.message ?: "Bad request: " + ex.localizedMessage)
         )
     }
-
-//    @ExceptionHandler(MethodArgumentNotValidException::class)
-//    fun handleValidationErrors(ex: MethodArgumentNotValidException): ResponseEntity<ApiResponse> {
-//        val errors = ex.bindingResult.fieldErrors.associate { error ->
-//            error.field to (error.defaultMessage ?: "Invalid value")
-//        }
-//
-//        logger.warn("Validation failed: $errors")  // Now you'll see logs!
-//
-//        return ResponseEntity.badRequest().body(
-//            ErrorResponse(
-//                status = "error",
-//                message = "Validation failed",
-//                errors = errors
-//            )
-//        )
-//    }
 }

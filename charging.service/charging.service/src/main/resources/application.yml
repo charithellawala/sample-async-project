@@ -39,3 +39,9 @@ charging:
     auth-responses: charging.auth.responses
   callback:
     timeout-ms: 3000
+  authorization:
+    timeout-seconds: 5
+
+authorization:
+  timeout-seconds: 5
+

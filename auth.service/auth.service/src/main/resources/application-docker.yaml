@@ -1,4 +1,4 @@
-# Docker-specific overrides
+# For Docker Container Deployment
 
 server:
   port: 8084

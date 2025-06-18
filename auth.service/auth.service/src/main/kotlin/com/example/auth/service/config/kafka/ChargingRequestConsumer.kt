@@ -24,26 +24,26 @@ class ChargingRequestConsumer (private val authorizationService: AuthorizationSe
         val requestId = message["requestId"]!!
 
         try {
-            val result = authorizationService.checkAuthorization(stationId, driverToken)
 
+            val result = authorizationService.checkAuthorization(stationId, driverToken)
             val response = mapOf(
                 "stationId" to stationId.toString(),
                 "driverToken" to driverToken,
                 "status" to result.name.lowercase()
             )
-
             kafkaTemplate.send("authorization-results", requestId, response)
             logger.info("Sent authorization result for request $requestId: $response")
-        } catch (e: Exception) {
-            logger.error("Error processing request $requestId", e)
 
+        } catch (e: Exception) {
+
+            logger.error("Error processing request $requestId", e)
             val errorResponse = mapOf(
                 "stationId" to stationId.toString(),
                 "driverToken" to driverToken,
                 "status" to "unknown"
             )
-
             kafkaTemplate.send("authorization-results", requestId, errorResponse)
+
         }
     }
 }

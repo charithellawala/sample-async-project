@@ -9,12 +9,11 @@ import java.util.UUID
 class AuthorizationService {
 
     private val logger = LoggerFactory.getLogger(javaClass)
-
     // sample check for acl
     fun checkAuthorization(stationId: UUID, driverToken: String): AuthorizationResult {
         logger.info("Checking authorization for station $stationId and driver $driverToken")
 
-        // processing delay
+        // processing  delay for testing purpose only
         Thread.sleep(1000)
 
         // simple logic for ACL

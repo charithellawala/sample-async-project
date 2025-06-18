@@ -42,3 +42,6 @@ logging:
   level:
     root: INFO
     org.springframework.kafka: DEBUG
+
+authorization:
+  timeout-seconds: 5

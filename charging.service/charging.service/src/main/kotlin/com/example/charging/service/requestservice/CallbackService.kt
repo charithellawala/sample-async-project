@@ -16,7 +16,6 @@ class CallbackService {
 
     fun sendCallback(request: ChargingRequest) {
         val payload = AuthorizationResult(
-            //requestId =
             stationId = request.stationId,
             driverToken = request.driverToken,
             status = request.status.name.lowercase()
@@ -33,7 +32,7 @@ class CallbackService {
             logger.info("Callback sent successfully to ${request.callbackUrl}. Response: ${response.statusCode}")
         } catch (e: Exception) {
             logger.error("Failed to send callback to ${request.callbackUrl}", e)
-            //should try a re-try call here
+            //toDo: should try a re-try call here later
         }
     }
 }
