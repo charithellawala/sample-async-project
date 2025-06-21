@@ -3,6 +3,7 @@ package com.example.charging.service.controller
 import com.example.charging.service.config.kafka.ChargingRequestProducer
 import com.example.charging.service.dao.ChargingRequestDTO
 import com.example.charging.service.model.ApiResponse
+import com.example.charging.service.requestservice.ChargingService
 import com.example.charging.service.requestservice.requestserviceImpl.ChargingServiceImpl
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @Validated
 @RequestMapping("/api/v1/charging")
-class ChargingController (private val chargingService: ChargingServiceImpl,
+class ChargingController (private val chargingService: ChargingService,
                           private val chargingRequestProducer: ChargingRequestProducer
 ) {
     @PostMapping("/start-charging")
