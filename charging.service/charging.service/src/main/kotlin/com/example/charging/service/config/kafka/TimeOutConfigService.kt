@@ -30,15 +30,15 @@ class TimeOutConfigService(
                 val request = chargingRequestRepository.findByIdForUpdate(requestId)
 
                 if (request?.status == AuthorizationStatus.PENDING) {
-                    logger.warn("Timeout - No response for request $requestId")
 
+                    logger.warn("Timeout - No response for request $requestId")
                     request.status = AuthorizationStatus.UNKNOWN
                     request.processedAt = Instant.now()
 
                     val managedEntity = entityManager.merge(request)
                     chargingRequestRepository.save(managedEntity)
-
                     callbackService.sendCallback(managedEntity)
+
                 }
             }
         }, Instant.now().plusMillis(timeoutMillis))
