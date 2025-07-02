@@ -8,6 +8,7 @@ import com.example.charging.service.repository.ChargingRequestRepository
 import com.example.charging.service.requestservice.ChargingService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class ChargingServiceImpl  (
@@ -27,6 +28,7 @@ class ChargingServiceImpl  (
                     stationId = request.stationId,
                     driverToken = request.driverToken,
                     callbackUrl = request.callbackUrl
+
                 )
             )
             logger.info("Charging Request Saved Successfully In Database ${chargingRequest.stationId}")

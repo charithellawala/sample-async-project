@@ -15,7 +15,8 @@ import java.util.UUID
 @Entity
 @Table(name = "charging_requests")
 data class ChargingRequest(
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     val id: UUID? = null,
 
     @Column(nullable = false)

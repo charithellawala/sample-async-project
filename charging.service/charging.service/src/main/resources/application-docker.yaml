@@ -45,3 +45,10 @@ logging:
 
 authorization:
   timeout-seconds: 5
+
+kafka:
+  topics:
+    charging-requests: "charging-requests"
+    authorization-results: "authorization-results"
+  consumer:
+    group-id: charging-service

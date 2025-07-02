@@ -9,32 +9,23 @@ import org.springframework.stereotype.Component
 import java.time.Instant
 import java.util.*
 import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
-import java.util.concurrent.TimeoutException
 
 @Component
 class ChargingRequestConsumer(
     private val chargingRequestRepository: ChargingRequestRepository,
-    private val callbackService: CallbackService,
-
-    ) {
-    private val timeoutSeconds: Long = 5000L
+    private val callbackService: CallbackService
+) {
     private val logger = LoggerFactory.getLogger(javaClass)
     private val executor = Executors.newSingleThreadExecutor()
 
-
-    @KafkaListener(topics = ["authorization-results"], groupId = "charging-service")
+    @KafkaListener(
+        topics = ["\${kafka.topics.authorization-results}"],
+        groupId = "\${kafka.consumer.group-id}"
+    )
     fun consume(rawMessage: Map<String, Any>) {
 
-        logger.info("Processing authorization result with timeout: ${timeoutSeconds}s")
-        val future = executor.submit {
-            processAndUpdateStatus(rawMessage)
-        }
-
         try {
-            future.get(timeoutSeconds, TimeUnit.SECONDS)
-        } catch (e: TimeoutException) {
-            handleTimeout(rawMessage)
+            processAndUpdateStatus(rawMessage)
         } catch (e: Exception) {
             logger.error("Processing failed Due to: ", e)
             throw e
@@ -46,6 +37,8 @@ class ChargingRequestConsumer(
         val (stationId, driverToken) = parseMessage(rawMessage)
         val status = determineStatus(rawMessage["status"])
 
+
+        // chargingRequestRepository.findByIdForUpdate(requestId)
         chargingRequestRepository.findByStationIdAndDriverToken(stationId, driverToken)?.let { request ->
             request.status = status
             request.processedAt = Instant.now()
@@ -54,23 +47,10 @@ class ChargingRequestConsumer(
         } ?: logger.error("Request not found for station $stationId")
     }
 
-    private fun handleTimeout(rawMessage: Map<String, Any>) {
-        logger.warn("Timeout after $timeoutSeconds seconds, defaulting to UNKNOWN")
-
-        val (stationId, driverToken) = parseMessage(rawMessage)
-
-        chargingRequestRepository.findByStationIdAndDriverToken(stationId, driverToken)?.let { request ->
-            request.status = AuthorizationStatus.UNKNOWN
-            request.processedAt = Instant.now()
-            chargingRequestRepository.save(request)
-            callbackService.sendCallback(request)
-        } ?: logger.error("Request not found during timeout handling")
-    }
-
 
     private fun parseMessage(rawMessage: Map<String, Any>): Pair<UUID, String> {
         return Pair(
-            UUID.fromString(rawMessage["stationId"].toString()), rawMessage["driverToken"].toString()
+            UUID.fromString(rawMessage["stationId"].toString()), rawMessage["driverToken"].toString(),
         )
     }
 

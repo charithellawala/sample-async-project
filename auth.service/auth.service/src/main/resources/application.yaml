@@ -10,6 +10,9 @@ spring:
     bootstrap-servers: localhost:9092
     consumer:
       group-id: auth-service
+      topics:
+        charging-requests: "charging-requests"
+        authorization-results: "authorization-results"
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
@@ -18,3 +21,11 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+
+kafka:
+  topics:
+    charging-requests: "charging-requests"
+    authorization-results: "authorization-results"
+  consumer:
+    group-id: auth-service

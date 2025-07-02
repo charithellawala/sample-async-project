@@ -6,11 +6,11 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.config.TopicBuilder
 
 @Configuration
-class KafkaConfig {
+class KafkaConfig (private val kafkaTopics: KafkaTopicsConfig){
 
     @Bean
     fun chargingRequestsTopic(): NewTopic {
-        return TopicBuilder.name("charging-requests")
+        return TopicBuilder.name(kafkaTopics.chargingRequests)
             .partitions(3)
             .replicas(1)
             .build()
@@ -18,7 +18,7 @@ class KafkaConfig {
 
     @Bean
     fun authorizationResultsTopic(): NewTopic {
-        return TopicBuilder.name("authorization-results")
+        return TopicBuilder.name(kafkaTopics.authorizationResults)
             .partitions(3)
             .replicas(1)
             .build()

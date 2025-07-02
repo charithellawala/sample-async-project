@@ -16,8 +16,19 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    topics:
+      charging-requests: "charging-requests"
+      authorization-results: "authorization-results"
+
 
 logging:
   level:
     root: INFO
     org.springframework.kafka: DEBUG
+
+kafka:
+  topics:
+    charging-requests: "charging-requests"
+    authorization-results: "authorization-results"
+  consumer:
+    group-id: auth-service
