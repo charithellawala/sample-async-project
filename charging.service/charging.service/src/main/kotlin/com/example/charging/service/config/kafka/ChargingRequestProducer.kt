@@ -7,12 +7,11 @@ import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Component
 
 @Component
-class ChargingRequestProducer(
-    private val kafkaTemplate: KafkaTemplate<String, Any>, private val kafkaTopics: KafkaTopicsConfig,
-    private val timeoutTracker: TimeOutConfigService
-) {
+class ChargingRequestProducer(private val kafkaTemplate: KafkaTemplate<String, Any>, private val kafkaTopics: KafkaTopicsConfig,
+                              private val timeoutTracker: TimeOutConfigService) {
 
     private val logger = LoggerFactory.getLogger(javaClass)
+
 
     fun sendChargingRequest(request: ChargingRequest) {
 

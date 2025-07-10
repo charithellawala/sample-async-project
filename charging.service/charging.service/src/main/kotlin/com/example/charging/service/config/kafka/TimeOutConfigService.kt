@@ -7,10 +7,12 @@ import jakarta.persistence.EntityManager
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.TaskScheduler
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.support.TransactionTemplate
 import java.time.Instant
 import java.util.*
 
+@Transactional
 @Component
 class TimeOutConfigService(
     private val chargingRequestRepository: ChargingRequestRepository,
@@ -21,6 +23,7 @@ class TimeOutConfigService(
 ) {
 
     private val timeoutMillis: Long = 5000L
+
     private val logger = LoggerFactory.getLogger(javaClass)
 
     fun trackRequest(requestId: UUID) {

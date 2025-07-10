@@ -18,6 +18,7 @@ class ChargingServiceImpl  (
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
+
     override fun processChargingRequest(request: ChargingRequestDTO): ApiResponse {
 
         logger.info("Processing charging request for station ${request.stationId}")
@@ -27,6 +28,7 @@ class ChargingServiceImpl  (
                     stationId = request.stationId,
                     driverToken = request.driverToken,
                     callbackUrl = request.callbackUrl
+
                 )
             )
             logger.info("Charging Request Saved Successfully In Database ${chargingRequest.stationId}")
