@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  charging-service:
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/charging-service:${IMAGE_TAG}
+    build:
+      context: ./charging-service
+      args:
+        - APP_NAME=charging-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=aws
+
+  auth-service:
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/auth-service:${IMAGE_TAG}
+    build:
+      context: ./auth-service
+      args:
+        - APP_NAME=auth-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=aws
