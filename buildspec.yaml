@@ -9,6 +9,7 @@ phases:
       - aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin $REPOSITORY_URI
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+      - echo "IMAGE_TAG=${IMAGE_TAG}" >> env_vars
   build:
     commands:
       - echo "Building images..."
@@ -26,6 +27,6 @@ phases:
 artifacts:
   files:
     - 'docker-compose.yaml'
-#    - 'env_vars'
+    - 'env_vars'
 
 
