@@ -3,8 +3,7 @@ version: 0.2
 phases:
   pre_build:
     commands:
-#      - mvn clean install
-      - echo Logging in to Amazon ECR...
+      - echo "Logging in to Amazon ECR..."
       - aws --version
       - REPOSITORY_URI=808985146341.dkr.ecr.eu-north-1.amazonaws.com/test-register1
       - aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin $REPOSITORY_URI
@@ -14,8 +13,8 @@ phases:
     commands:
       - echo "Building images..."
       - docker-compose -f docker-compose.yaml build
-      - echo "Pushing images to ECR..."
-      - docker-compose -f docker-compose.yaml push
+#      - echo "Pushing images to ECR..."
+#      - docker-compose -f docker-compose.yaml push
 #      - echo Build started on `date`
 #      - echo Building the Docker image...
 #      - docker build -t $REPOSITORY_URI:latest .
@@ -23,6 +22,9 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
+      - echo "Pushing images to ECR..."
+      - docker-compose -f docker-compose.yaml push
+      - echo "Push completed successfully!"
 #      - echo Pushing the Docker images...
 #      - docker push $REPOSITORY_URI:latest
 #      - docker push $REPOSITORY_URI:$IMAGE_TAG
