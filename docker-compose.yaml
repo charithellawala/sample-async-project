@@ -26,6 +26,7 @@ services:
 
 
   charging-service:
+    image: 808985146341.dkr.ecr.eu-north-1.amazonaws.com/test-register1:charging-service-${IMAGE_TAG}
     build:
       context: ./charging.service/charging.service
       dockerfile: Dockerfile
@@ -35,11 +36,14 @@ services:
       - "8082:8082"
     environment:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+        - SPRING_PROFILES_ACTIVE=aws
     depends_on:
       - kafka
 
 
+
   auth-service:
+    image: 808985146341.dkr.ecr.eu-north-1.amazonaws.com/test-register1:auth-service-${IMAGE_TAG}
     build:
       context: ./auth.service/auth.service
       dockerfile: Dockerfile
@@ -49,6 +53,7 @@ services:
       - "8084:8084"
     environment:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+        - SPRING_PROFILES_ACTIVE=aws
     depends_on:
       - kafka
 

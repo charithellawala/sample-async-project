@@ -13,38 +13,19 @@ phases:
     commands:
       - echo "Building images..."
       - docker-compose -f docker-compose.yaml build
-#      - echo "Pushing images to ECR..."
-#      - docker-compose -f docker-compose.yaml push
-#      - echo Build started on `date`
-#      - echo Building the Docker image...
-#      - docker build -t $REPOSITORY_URI:latest .
-#      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+
   post_build:
     commands:
       - echo Build completed on `date`
       - echo "Pushing images to ECR..."
-      - docker-compose -f docker-compose.yaml push
+      - docker push 808985146341.dkr.ecr.eu-north-1.amazonaws.com/test-register1:charging-service-${IMAGE_TAG}
+      - docker push 808985146341.dkr.ecr.eu-north-1.amazonaws.com/test-register1:auth-service-${IMAGE_TAG}
+      - echo "Pushed images with tag: ${IMAGE_TAG}"
       - echo "Push completed successfully!"
-#      - echo Pushing the Docker images...
-#      - docker push $REPOSITORY_URI:latest
-#      - docker push $REPOSITORY_URI:$IMAGE_TAG
-#      - echo "Pushing images to ECR..."
-#      - docker-compose -f docker-compose.build.yml push
-#      - echo Writing image definitions file...
-#      - printf '[{"ImageURI":"%s.dkr.ecr.%s.amazonaws.com/charging-service:%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
-#      - echo Writing image definitions file...
-      # add your container name
-#      - DOCKER_CONTAINER_NAME=javatechie-registry
-#      - printf '[{"name":"%s","imageUri":"%s"}]' $DOCKER_CONTAINER_NAME $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
-#      - echo $DOCKER_CONTAINER_NAME
-#      - echo printing imagedefinitions.json
-#      - cat imagedefinitions.json
 
 artifacts:
   files:
     - 'docker-compose.yaml'
-#  secondary-artifacts:
-#    docker-images:
-#      files:
-#        - docker-compose.build.yml
+#    - 'env_vars'
+
 
